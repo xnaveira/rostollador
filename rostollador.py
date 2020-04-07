@@ -8,16 +8,21 @@ import os
 
 from youtube_api import YouTubeDataAPI
 
+from kvaasclient import Kvaas
+
 admin = os.getenv('ADMIN_USER')
-admin_filter = Filters.chat(username=admin)
 youtube_api_key = os.getenv('YOUTUBE_API_KEY')
-yt = YouTubeDataAPI(youtube_api_key)
+telegram_token = os.getenv('TELEGRAM_TOKEN')
 nyofla_channel=os.getenv('NYOFLA_YT_CHANNEL')
-last_checked = datetime.fromtimestamp(0)
 channel_rostollador_i_jo = os.getenv('ROSTOLLADOR_I_JO_CHANNEL')
 channel_rostolladors_hab = os.getenv('ROSTOLLADORS_CHANNEL')
 
-updater = Updater(token=os.getenv('TELEGRAM_TOKEN'), use_context=True)
+
+admin_filter = Filters.chat(username=admin)
+yt = YouTubeDataAPI(youtube_api_key)
+last_checked = datetime.fromtimestamp(0)
+
+updater = Updater(token=telegram_token, use_context=True)
 dispatcher = updater.dispatcher
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -25,7 +30,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 messages_sent = 0
 
 def version(update, context):
-    version = '2.2.0'
+    version = '2.3.0'
     global messages_sent
     messages_sent = messages_sent + 1
     context.bot.send_message(chat_id=update.effective_chat.id,
@@ -56,16 +61,31 @@ dispatcher.add_handler(say_handler)
 
 def latest_nyofla_youtube(unused):
     global messages_sent
-    global last_checked
+    # global last_checked
+
+    kvaas_client = Kvaas()
+    last_checked = datetime(1970,1,1,0,0,0) #init in the past
+    fmt = '%c'
+
+    try:
+        stored_date = kvaas_client.getValue('lc')
+    except:
+        logging.warning("Couldn''t retrieve stored date")
+
+    try:
+        last_checked = last_checked.strptime(stored_date, fmt)
+    except Exception:
+        logging.warning(Exception)
+
     messages_sent = messages_sent + 1
     ylist = yt.search(channel_id=nyofla_channel, search_type="video", max_results=1, order_by="date")
     if len(ylist) > 0:
         ylatest = ylist[0]
         if ylatest['video_publish_date'] > last_checked:
-            last_checked = ylatest['video_publish_date']
-            updater.bot.send_message(chat_id=channel_rostollador_i_jo,
-                                     text='{} presenta: {}\n{}'.format(ylatest['channel_title'], ylatest['video_title'], ylatest['video_thumbnail']),
-                                     parse_mode='Html')
+            kvaas_client.setValue('lc', ylatest['video_publish_date'].strftime(fmt))
+            updater.bot.send_message(chat_id=channel_rostolladors_hab,
+                                     text='Nou video de {}\n https://www.youtube.com/watch?v={}'.format(ylatest['channel_title'], ylatest['video_id']),
+                                     parse_mode=ParseMode.HTML)
 
 
 # latest_nyofla_handler = CommandHandler('ultim', latest_nyofla_youtube, filters=admin_filter)
@@ -91,7 +111,7 @@ dispatcher.add_handler(hello_handler)
 def good_morning(update, context):
     global messages_sent
     greetings = ['Bon dia {}', 'Bon dia tinguis {}']
-    if percent(40):
+    if percent(60):
         messages_sent = messages_sent + 1
         context.bot.send_message(
             chat_id=update.effective_chat.id,
