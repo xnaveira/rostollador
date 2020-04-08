@@ -30,7 +30,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 messages_sent = 0
 
 def version(update, context):
-    version = '2.3.0'
+    version = '2.3.1'
     global messages_sent
     messages_sent = messages_sent + 1
     context.bot.send_message(chat_id=update.effective_chat.id,
@@ -121,6 +121,20 @@ def good_morning(update, context):
 
 good_morning_handler = MessageHandler(Filters.regex('.*[B|b]on\s+dia.*'), good_morning)
 dispatcher.add_handler(good_morning_handler)
+
+def bot_listens(update, context):
+    global messages_sent
+    greetings = ['Què?', 'Com dius {}?', 'Are you talking to ME?', 'T''he sentit {}']
+    if percent(50):
+        messages_sent = messages_sent + 1
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=choice(greetings).format(update.effective_user.first_name),
+            parse_mode='MarkDown')
+
+
+bot_listens_handler = MessageHandler(Filters.regex('.*[B|b][O|o][T|t].*'), bot_listens)
+dispatcher.add_handler(bot_listens_handler)
 
 dispatcher.job_queue.run_repeating(latest_nyofla_youtube, 1800, 0, 'NyoflaYT')
 
