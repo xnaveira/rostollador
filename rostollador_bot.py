@@ -37,7 +37,7 @@ def main():
         Command(
             'versio',
             'La meva versió és {}',
-            ['3.0.0'],
+            ['3.0.1'],
             Filters.chat(username=admin)
         )
     )
