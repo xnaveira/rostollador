@@ -6,13 +6,9 @@ name: rostollador_build_and_publish
 # events but only for the master branch
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v*'
   pull_request:
-    branches:
-      - master
     tags:
       - 'v*'
 
