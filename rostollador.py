@@ -61,5 +61,5 @@ class Rostollador:
     def start(self):
         for handler in self.handlers:
             self.dispatcher.add_handler(handler.get_handler())
-        self.dispatcher.job_queue.run_repeating(self.latest_nyofla_youtube, 1800, 0, 'NyoflaYT')
+        self.dispatcher.job_queue.run_repeating(self.latest_nyofla_youtube, 2700, 0, 'NyoflaYT')
         self.updater.start_polling()
