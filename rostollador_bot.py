@@ -11,7 +11,7 @@ def main():
     admin = os.getenv('ADMIN_USER')
     telegram_token = os.getenv('TELEGRAM_TOKEN')
     with open('version', 'r') as v:
-        version = v.read()
+        version = v.read().rstrip()
 
     handlers = []
     handlers.append(
@@ -39,7 +39,7 @@ def main():
         Command(
             'versio',
             'La meva versió és {}',
-            version,
+            [version],
             Filters.chat(username=admin)
         )
     )
