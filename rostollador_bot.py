@@ -10,6 +10,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 def main():
     admin = os.getenv('ADMIN_USER')
     telegram_token = os.getenv('TELEGRAM_TOKEN')
+    with open('version', 'r') as v:
+        version = v.read()
 
     handlers = []
     handlers.append(
@@ -37,7 +39,7 @@ def main():
         Command(
             'versio',
             'La meva versió és {}',
-            ['3.0.1'],
+            version,
             Filters.chat(username=admin)
         )
     )
