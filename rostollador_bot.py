@@ -30,7 +30,7 @@ def main():
     )
     handlers.append(
         Greeter(
-            ['Què?', 'Com dius {}?', 'Are you talking to ME?', 'T''he sentit {}'],
+            ['Què?', 'Com dius {}?', 'Are you talking to ME?', 'T\'he sentit {}'],
             Filters.regex('.*[B|b][O|o][T|t].*'),
             50
         )
