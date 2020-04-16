@@ -1,8 +1,7 @@
 from telegram.ext import MessageHandler, Filters
 import yaml
-import os
 from random import choice
-from rostolladorhandler import RostolladorHandler
+from handlers.rostolladorhandler import RostolladorHandler
 import logging
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)

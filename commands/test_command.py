@@ -1,4 +1,4 @@
-import command
+from commands import command
 import unittest
 
 

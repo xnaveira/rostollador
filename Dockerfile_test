@@ -4,5 +4,6 @@ RUN mkdir -p rostollador
 WORKDIR /rostollador/
 ADD ./*.py /rostollador/
 ADD handlers /rostollador/handlers/
+ADD commands /rostollador/commands/
 ADD version /rostollador/
 RUN cd /rostollador/ && python -m unittest -v

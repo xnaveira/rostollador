@@ -2,9 +2,9 @@ import logging
 import yaml
 import os
 from telegram.ext import Filters
-from command import Command
-from handlers.greeter import Greeter
+from commands.command import Command
 from rostollador import Rostollador
+from handlers import greeter
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
@@ -26,6 +26,7 @@ def main():
             Filters.chat(username=admin)
         )
     )
+
 
     r = Rostollador(admin, telegram_token, handlers)
     r.start()
