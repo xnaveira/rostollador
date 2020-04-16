@@ -1,0 +1,5 @@
+FROM xnaveira/rostollador_builder
+
+ADD ./*.py /
+ADD version /
+RUN python -m unittest -v

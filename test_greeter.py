@@ -6,7 +6,7 @@ import re
 
 class TestGreeter(unittest.TestCase):
 
-    def greeter1(self):
+    def test_greeter1(self):
         rx = re.compile('.*[H|h]ola.*')
         rx_tests = [
             'Hola nois',
@@ -29,7 +29,7 @@ class TestGreeter(unittest.TestCase):
         )
         i = 0
         while i < len(greetings) * 2:
-            self.assertIn(g._build_answer(update),expected)
+            self.assertIn(g._build_answer(update), expected)
             i = i + 1
 
 
