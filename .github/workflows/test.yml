@@ -9,11 +9,9 @@ on:
     branches:
       - 'test*'
     tags:
-      - 'v*'
-  pull_request:
-    tags:
-      - 'v*'
-
+      - 'test*'
+  schedule:
+    - cron: '0 2 * * 0' # Weekly on Sundays at 02:00
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -40,6 +38,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         dockerfile: Dockerfile_builder
         tags: "latest"
+        cache: ${{ github.event_name != 'schedule' }}
 
     - name: Test the tests
       id: test_tests
