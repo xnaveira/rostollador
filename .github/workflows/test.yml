@@ -6,9 +6,10 @@ name: rostollador_test
 # events but only for the master branch
 on:
   push:
+    branches:
+      - 'test*'
     tags:
       - 'v*'
-      - 'test*'
   pull_request:
     tags:
       - 'v*'

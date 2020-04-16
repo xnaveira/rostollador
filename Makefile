@@ -6,5 +6,5 @@ builder:
 test:
 	docker build -f Dockerfile_test -t xnaveira/rostollador_test .
 
-rostollador: 
+rostollador:
 	docker build -t xnaveira/rostollador .
