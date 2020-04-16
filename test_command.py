@@ -1,7 +1,3 @@
-import re
-from unittest.mock import Mock
-import greeter
-
 import command
 import unittest
 

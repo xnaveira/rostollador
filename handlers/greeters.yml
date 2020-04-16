@@ -1,0 +1,49 @@
+--- !greeter
+greetings:
+  - 'Hola {}'
+  - 'Què tal {}?'
+  - 'Com vas {}?'
+  - 'Què dius {}?'
+  - 'Com ho portes {}?'
+p: 60
+regex: '.*\b[H|h]ola\b.*'
+regex_positive_tests:
+  - 'Hola nois'
+  - 'sdds  hola fafa'
+  - 'ha dit hola'
+regex_negative_tests:
+  - 'holahola'
+  - 'ola'
+  - 'ssfsdfsdf goholasdfs'
+--- !greeter
+greetings:
+  - 'Bon dia {}'
+  - 'Bon dia tinguis {}'
+p: 60
+regex: '.*\b[B|b]on\s+dia\b.*'
+regex_positive_tests:
+  - 'Bon dia nois'
+  - 'sdds  bon dia fafa'
+  - 'ha dit bon dia'
+regex_negative_tests:
+  - 'bondia'
+  - 'ola'
+  - 'ssfsdfsdfbon diagoholasdfs'
+--- !greeter
+greetings:
+  - 'Què?'
+  - 'Com dius {}?'
+  - 'Are you talking to ME?'
+  - 'T''he sentit {}'
+p: 60
+regex: '.*\b[B|b][O|o][T|t]\b.*'
+regex_positive_tests:
+  - 'bot'
+  - 'Bot'
+  - 'que diu el bot'
+regex_negative_tests:
+  - 'bondia'
+  - 'ola'
+  - 'ssfsdfsdfbon diagoholasdfs'
+  - 'botifarra'
+  - 'calabot'

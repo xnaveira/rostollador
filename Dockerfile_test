@@ -1,5 +1,8 @@
 FROM xnaveira/rostollador_builder
 
-ADD ./*.py /
-ADD version /
-RUN python -m unittest -v
+RUN mkdir -p rostollador
+WORKDIR /rostollador/
+ADD ./*.py /rostollador/
+ADD handlers /rostollador/handlers/
+ADD version /rostollador/
+RUN cd /rostollador/ && python -m unittest -v

@@ -1,4 +1,6 @@
-from telegram.ext import MessageHandler
+from telegram.ext import MessageHandler, Filters
+import yaml
+import os
 from random import choice
 from rostolladorhandler import RostolladorHandler
 import logging
@@ -6,11 +8,15 @@ import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 
 
-class Greeter(RostolladorHandler):
-    def __init__(self, greetings, f, p):
+class Greeter(RostolladorHandler, yaml.YAMLObject):
+    yaml_tag = u'!greeter'
+
+    def __init__(self, greetings, p, regex, regex_positive_tests, regex_negative_tests):
         super().__init__(p)
         self.greetings = greetings
-        self.filter = f
+        self.regex = regex
+        self.regex_positive_tests = regex_positive_tests
+        self.regex_negative_tests = regex_negative_tests
 
     def _build_answer(self, update):
         return choice(self.greetings).format(update.effective_user.first_name)
@@ -23,4 +29,4 @@ class Greeter(RostolladorHandler):
                 parse_mode='MarkDown')
 
     def get_handler(self):
-        return MessageHandler(self.filter, self.f)
+        return MessageHandler(Filters.regex(self.regex), self.f)

@@ -1,8 +1,9 @@
 import logging
+import yaml
 import os
 from telegram.ext import Filters
 from command import Command
-from greeter import Greeter
+from handlers.greeter import Greeter
 from rostollador import Rostollador
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
@@ -12,29 +13,11 @@ def main():
     telegram_token = os.getenv('TELEGRAM_TOKEN')
     with open('version', 'r') as v:
         version = v.read().rstrip()
-
+    with open('handlers/greeters.yml') as f:
+        gs = f.read()
     handlers = []
-    handlers.append(
-        Greeter(
-            ['Hola {}', 'Què tal {}?', 'Com vas {}?', 'Què dius {}?', 'Com ho portes {}?'],
-            Filters.regex('.*[H|h]ola.*'),
-            60
-        )
-    )
-    handlers.append(
-        Greeter(
-            ['Bon dia {}', 'Bon dia tinguis {}'],
-            Filters.regex('.*[B|b]on\s+dia.*'),
-            60
-        )
-    )
-    handlers.append(
-        Greeter(
-            ['Què?', 'Com dius {}?', 'Are you talking to ME?', 'T\'he sentit {}'],
-            Filters.regex('.*[B|b][O|o][T|t].*'),
-            50
-        )
-    )
+    for g in yaml.full_load_all(gs):
+        handlers.append(g)
     handlers.append(
         Command(
             'versio',
