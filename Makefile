@@ -3,8 +3,8 @@
 builder:
 	docker build -f Dockerfile_builder -t xnaveira/rostollador_builder .
 
-test: builder
+test:
 	docker build -f Dockerfile_test -t xnaveira/rostollador_test .
 
-rostollador: builder
+rostollador: 
 	docker build -t xnaveira/rostollador .
