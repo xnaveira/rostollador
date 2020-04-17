@@ -3,6 +3,7 @@ import yaml
 import os
 from telegram.ext import Filters
 from commands.command import Command
+from commands.roller import Roller
 from rostollador import Rostollador
 from handlers import greeter
 
@@ -24,6 +25,14 @@ def main():
             'La meva versió és {}',
             [version],
             Filters.chat(username=admin)
+        )
+    )
+    handlers.append(
+        Roller(
+            'roll',
+            '',
+            '',
+            None
         )
     )
 
